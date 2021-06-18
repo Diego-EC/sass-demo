@@ -13,6 +13,13 @@ $padding: (
 $borders: (
     1rem
 );
+$desktop-screen-size: 840px;
+
+@mixin desktop {
+    @media(min-width: #{$desktop-screen-size}) {
+        @content;
+    }   
+}
 
 @function color($color-name){
     @return map-get($colors, $color-name)
@@ -33,6 +40,10 @@ body {
         height: 100%;
         position: absolute;
         z-index: -1;
+
+        @include desktop {
+            clip-path: polygon(0 0, 75% 0, 55% 100%, 0 100%);
+        }
     }
 
     header a {
@@ -40,11 +51,17 @@ body {
         text-decoration: none;
         padding: $padding;
         display: block;
-        text-transform: capitalize;
+        text-transform: uppercase;
     }
 }
 
 main {
+    @include desktop {
+        display: grid;
+        grid-template-columns: 50% auto;
+        grid-template-areas: "primary card";
+    }
+
     section#card {
         background: white;
         padding: 1.2rem;
@@ -52,6 +69,13 @@ main {
         border-radius: $borders;
         box-shadow: 0 0.8rem 1rem rgba(0,0,0,0.5);
         width: 80%;
+
+        @include desktop {
+            grid-area: card;
+            height: fit-content;
+            align-self: center;
+            margin-left: 1rem;
+        }
 
         ul {
             list-style-type: none;
@@ -85,10 +109,22 @@ main {
         padding: $padding;
         text-align: center;
 
+        @include desktop {
+            grid-area: primary;
+            text-align: left;
+            margin: 4rem 0 0 4rem;
+        }
+
         h1 {
             font-size: 3rem;
             margin-top: 0.8rem;
             text-transform: uppercase;
+
+            @include desktop {
+                width: 30%;
+                font-size: 4em;
+                line-height: 0.9em;
+            }
         }
 
         p {
@@ -106,6 +142,11 @@ main {
             text-align: center;
             margin: 3rem auto 0 auto;
             padding: $padding;
+
+            @include desktop {
+                display: inline-block;
+                padding: $padding $padding * 4;
+            }
         }
     }
 
